@@ -1,0 +1,24 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "for backend",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amdh/Startbucks-Multi-Tenant-SaaS-App-Backend.git"
+  },
+  "author": "Amruta Dhondage",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amdh/Startbucks-Multi-Tenant-SaaS-App-Backend/issues"
+  },
+  "homepage": "https://github.com/amdh/Startbucks-Multi-Tenant-SaaS-App-Backend#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongoose": "^4.9.3",
+    "body-parser": "~1.0.1"
+  }
+}
