@@ -1,11 +1,12 @@
-from flask                          import Flask, render_template, request, session, flash, redirect, jsonify, json
-from configparser                   import ConfigParser
-from dynamodb.connectionManager     import ConnectionManager
-from OrderResource					import OrderResource
-from OrdersResource					import OrdersResource
-from PaymentResource				import PaymentResource
-
+from flask import Flask
+import OrderResource
+from flask.ext.restful import Api, Resource
+import database
 app = Flask(__name__)
+api = Api(app)
+
+
+
 
 if __name__ == "__main__":
-    app.run(debug=True,host='0.0.0.0')
+    app.run(debug=True)
