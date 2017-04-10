@@ -1,57 +1,38 @@
-from boto.dynamodb2.fields import HashKey
-from boto.dynamodb2.table import Table
-
-from flask import Flask
-from flask.ext.dynamo import Dynamo
-
-app = Flask(__name__)
-app.config['DYNAMO_ENABLE_LOCAL'] = True
-app.config['DYNAMO_LOCAL_HOST'] = 'localhost'
-app.config['DYNAMO_LOCAL_PORT'] = 8000
+import boto3
 
 
-dynamo = Dynamo(app)
-# Create the DynamoDB table.
-users = dynamo.create_table(
-    TableName='users',
+dynamodb = boto3.resource('dynamodb', region_name='us-west-2', endpoint_url="http://localhost:8000")
+
+orderitem_table = dynamodb.Table('order')
+if orderitem_table == 0:
+    orderitem_table = dynamodb
+    (
+    TableName='order',
     KeySchema=[
         {
-            'AttributeName': 'username',
-            'KeyType': 'HASH'
+            'AttributeName': 'order_id',
+            'KeyType': 'HASH'  #Partition key
         },
         {
-            'AttributeName': 'last_name',
-            'KeyType': 'RANGE'
+            'AttributeName':  'name',
+            'KeyType': 'RANGE'  #Sort key
         }
     ],
     AttributeDefinitions=[
         {
-            'AttributeName': 'username',
-            'AttributeType': 'S'
+            'AttributeName': 'order_id',
+            'AttributeType': 'N'
         },
         {
-            'AttributeName': 'last_name',
+            'AttributeName': 'name',
             'AttributeType': 'S'
-        },
+        }
 
     ],
     ProvisionedThroughput={
-        'ReadCapacityUnits': 5,
-        'WriteCapacityUnits': 5
+        'ReadCapacityUnits': 10,
+        'WriteCapacityUnits': 10
     }
-)
-users.put_item(
-   Item={
-        'username': 'janedoe',
-        'last_name': 'Doe'
-    }
-)
+    )
 
-response = users.get_item(
-    Key={
-        'username': 'janedoe',
-        'last_name': 'Doe'
-    }
-)
-item = response['Item']
-print(item)
+print("Table status:", orderitem_table.table_status)
