@@ -1,0 +1,17 @@
+branch-defaults:
+  default:
+    environment: test-elasticbeanstalk-dev
+    group_suffix: null
+global:
+  application_name: test_elasticbeanstalk
+  branch: null
+  default_ec2_keyname: null
+  default_platform: Python 3.4
+  default_region: us-west-1
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  repository: null
+  sc: null
+  workspace_type: Application

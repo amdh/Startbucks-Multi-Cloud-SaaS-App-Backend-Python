@@ -1,0 +1,17 @@
+branch-defaults:
+  default:
+    environment: starbucks-python-mongo-backend-dev
+    group_suffix: null
+global:
+  application_name: starbucks_python_mongo_backend
+  branch: null
+  default_ec2_keyname: cmpe281-us-west-1
+  default_platform: Python 3.4
+  default_region: us-west-1
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  repository: null
+  sc: null
+  workspace_type: Application
