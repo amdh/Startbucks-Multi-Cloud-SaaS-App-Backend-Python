@@ -3,9 +3,7 @@ import boto3
 
 dynamodb = boto3.resource('dynamodb', region_name='us-west-2', endpoint_url="http://localhost:8000")
 
-orderitem_table = dynamodb.Table('order')
-if orderitem_table == 0:
-    orderitem_table = dynamodb
+orderitem_table = dynamodb
     (
     TableName='order',
     KeySchema=[

@@ -1,0 +1,27 @@
+version: '2'
+services:
+
+  db:
+    build: db/.
+    hostname: mongoserver
+    
+    ports: 
+      - 27017
+    volumes:
+      - ./db/data:/var/lib/mongo
+     
+    environment:
+      #MYSQL_ROOT_PASSWORD: root
+      #MYSQL_DATABASE: expenses_management_system
+      #MYSQL_USER: amdh
+      #MYSQL_PASSWORD: root
+
+  ws:
+    build: ws/.
+    ports:
+      - "5000:5000"
+    links:
+      - db
+    hostname: mongoserver
+    
+    

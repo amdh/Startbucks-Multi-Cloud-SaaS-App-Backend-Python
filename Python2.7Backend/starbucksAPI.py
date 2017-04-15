@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, flash, redirect, jsonify, json, Response
 from flask.views import MethodView
-
+import uuid
 from starbucksAPIService import StarbucksAPIService
 
 app = Flask(__name__)
@@ -30,17 +30,28 @@ GET     /orders
         Get list of Open Orders
 
 '''
+@app.route("/v1/starbucks/ping", methods=['GET'])
+def testPing():
+    print "ping successfull"
+    return json.dumps({'status' : 'ok' , 'message': 'Starbucks API service :v1'})
+
 @app.route("/v1/starbucks/order/<int:id>", methods=['GET'])
 def getOrder(id):
+
     return json.dumps(service.getOrder(id))
 
 @app.route("/v1/starbucks/order", methods=['POST'])
 def placeOrder():
-    return json.dumps(service.postOrder())
+    data = request.get_json(force=True)
+    data['id'] = uuid.getnode()
+    print data
+    return json.dumps(service.postOrder(data))
 
 @app.route("/v1/starbucks/order/<int:id>", methods=['PUT'])
 def updateOrder(id):
-    return json.dumps(service.putOrder(id))
+    data = request.get_json(force=True)
+    print data
+    return json.dumps(service.putOrder(data))
 
 @app.route("/v1/starbucks/order/<int:id>", methods=['DELETE'])
 def removeOrder(id):
@@ -57,5 +68,5 @@ def getOrders():
 
 
 if __name__ == "__main__":
-    print("running on 0.0.0.0")
+    print "running on 0.0.0.0"  
     app.run(debug=True,host='0.0.0.0')

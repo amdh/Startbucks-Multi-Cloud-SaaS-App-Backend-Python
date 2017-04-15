@@ -1,4 +1,3 @@
-import models.Order
 from enum import Enum
 import uuid
 import datamanager
