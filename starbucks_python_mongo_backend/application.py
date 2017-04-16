@@ -53,8 +53,8 @@ def placeOrder():
 @application.route("/v1/starbucks/order/<int:id>", methods=['PUT'])
 def updateOrder(id):
     data = request.get_json(force=True)
-    print(data)
-    return json.dumps(service.putOrder(data))
+    print(data,id)
+    return json.dumps(service.putOrder(data,id))
 
 @application.route("/v1/starbucks/order/<int:id>", methods=['DELETE'])
 def removeOrder(id):

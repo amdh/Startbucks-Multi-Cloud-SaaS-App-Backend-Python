@@ -40,12 +40,14 @@ class StarbucksAPIService():
 
     def getOrders(self):
         print("inside getOrders")
-        cursor = datamanager.collection.find()
+        cursor = datamanager.collection.find({}, {"_id": 0})
+        orders = {}
         for document in cursor:
             print(document)
-        return {'status': 'listoders'}
+            orders.update(document)
+        return orders
 
-    def cancel_Order(order_id):
-        print("Cancelling order with id", order_id)
-        datamanager.collection.remove({"id": order_id})
+    def deleteOrder(self,id):
+        print("Cancelling order with id", id)
+        datamanager.collection.remove({"id": id})
         return "Order Cancelled"
