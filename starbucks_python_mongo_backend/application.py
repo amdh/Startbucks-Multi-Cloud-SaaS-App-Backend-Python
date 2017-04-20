@@ -45,9 +45,7 @@ def getOrder(id):
 
 @application.route("/v1/starbucks/order", methods=['POST'])
 def placeOrder():
-    data = request.get_json(force=True)
-    data['id'] = uuid.getnode()
-    print(data)
+    data = request.get_json(force=True)   
     return json.dumps(service.postOrder(data))
 
 @application.route("/v1/starbucks/order/<int:id>", methods=['PUT'])
