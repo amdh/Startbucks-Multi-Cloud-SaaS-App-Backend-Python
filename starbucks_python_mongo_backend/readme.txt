@@ -3,8 +3,7 @@ create requirements.txt having needed python packages
 
 Elastic beanstalk user for python application
 
-AKIAIAFVYDDXOU5DGV2Q : Access key 
-secret Access key : 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
+
 
 using aws eb cli:
 
