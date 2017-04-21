@@ -38,27 +38,27 @@ def testPing():
     print("ping successfull")
     return json.dumps({'status' : 'ok' , 'message': 'Starbucks API service :v1'})
 
-@application.route("/v1/starbucks/order/<int:id>", methods=['GET'])
+@application.route("/v1/starbucks/order/<string:id>", methods=['GET'])
 def getOrder(id):
 
     return json.dumps(service.getOrder(id))
 
 @application.route("/v1/starbucks/order", methods=['POST'])
 def placeOrder():
-    data = request.get_json(force=True)   
+    data = request.get_json(force=True)
     return json.dumps(service.postOrder(data))
 
-@application.route("/v1/starbucks/order/<int:id>", methods=['PUT'])
+@application.route("/v1/starbucks/order/<string:id>", methods=['PUT'])
 def updateOrder(id):
     data = request.get_json(force=True)
     print(data,id)
     return json.dumps(service.putOrder(data,id))
 
-@application.route("/v1/starbucks/order/<int:id>", methods=['DELETE'])
+@application.route("/v1/starbucks/order/<string:id>", methods=['DELETE'])
 def removeOrder(id):
     return json.dumps(service.deleteOrder(id))
 
-@application.route("/v1/starbucks/order/<int:id>/pay", methods=['POST'])
+@application.route("/v1/starbucks/order/<string:id>/pay", methods=['POST'])
 def payOrder(id):
     return json.dumps(service.payOrder(id))
 

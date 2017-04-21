@@ -4,6 +4,8 @@ import datamanager
 import time
 from threading import Thread
 import socket
+import _thread
+
 
 class OrderStatus(Enum):
     PLACED = 1
@@ -12,25 +14,27 @@ class OrderStatus(Enum):
     SERVED = 4
     COLLECTED = 5
 
-class worker(Thread):
+
+class status(Thread):
 
     def _init_(self,order_id):
-        super(worker,self)._init_()
+        super(status,self)._init_()
         self.order_id=order_id
 
     def run(self):
-        datamanager.collection.update({'order.id': self.order_id}, {"$set": {'order.status': "PREPARING"}})
+        time.sleep(5)
+        datamanager.collection.update({'id': self.order_id}, {"$set": {'status': "PREPARING"}})
         time.sleep(2)
-        datamanager.collection.update({'order.id': self.order_id}, {"$set": {'order.status': "SERVED"}})
+        datamanager.collection.update({'id': self.order_id}, {"$set": {'status': "SERVED"}})
         time.sleep(10)
-        datamanager.collection.update({'order.id': self.order_id}, {"$set": {'order.status': "COLLECTED"}})
+        datamanager.collection.update({'id': self.order_id}, {"$set": {'status': "COLLECTED"}})
 
 class StarbucksAPIService():
 
     def postOrder(self,Order):
         # POST THE ORDER IN THE DB
-        print("post order")
-        order_id = uuid.getnode()
+        print("post order", Order)
+        order_id = uuid.uuid1()
         Order['id'] = str(order_id)
         links = {
             "payment": socket.gethostname()+"/v1/starbucks/order/" + str(order_id) + "/pay",
@@ -40,27 +44,52 @@ class StarbucksAPIService():
         Order['status'] = "PLACED"
         Order['message'] = "Order has been placed"
         print(Order)
-        datamanager.collection.insert_one({"order": Order})
-        return Order
+        datamanager.collection.insert_one(Order)
+        return self.getOrder(str(order_id))
 
     def getOrder(self, id):
-        # POST THE ORDER IN THE DB
+        # get THE ORDER IN THE DB
         print("get order")
         data = datamanager.collection.find_one({"id": id}, {"_id": 0})
+        if data is None:
+            data = {
+                "status": "error",
+                "message": "Order not found."
+                }
         return data
 
     def putOrder(self, Order,id):
         # POST THE ORDER IN THE DB
         print("put order")
-        datamanager.collection.update({'id': id}, {"$set": Order}, upsert=False)  # updating the order
-        return {'status':'updated'}
+        order = self.getOrder(id)
+        if order['status'] == "PAID" or order['status'] == "PREPARING" or order['status'] == "SERVED" or order[
+            'status'] == "COLLECTED":
+            message = {
+                'status': "error",
+                'message': "Order payment done hence cannot be updated "
+            }
+            return message
+        else:
+            datamanager.collection.update({'id': id}, {"$set":{"items":Order['items']}})  # updating the order
+        return self.getOrder(id)
 
     def payOrder(self, id):
         # POST THE ORDER IN THE DB
         print("paid order")
-        datamanager.collection.update({'id': id}, {"$set": {'status': "Paid"}})
-        worker(id).start()
-        return {'status':'paid'}
+        order = self.getOrder(id)
+        if order['status'] == "PAID" or order['status'] == "PREPARING" or order['status'] == "SERVED" or order[
+            'status'] == "COLLECTED":
+            message = {
+                'status': "error",
+                'message': "Order payment rejected"
+            }
+            return message
+        else:
+            datamanager.collection.update({'id': id}, {"$set": {'status': "PAID", 'message': "Payment Accepted"}})
+            datamanager.collection.update({'id': id}, {"$unset": {'links.payment': ''}})
+            #statusAPI(None,id).start()
+            _thread.start_new_thread(self.statusAPI, ("Thread-1", id,))
+        return self.getOrder(id)
 
     def getOrders(self):
         print("inside getOrders")
@@ -84,3 +113,14 @@ class StarbucksAPIService():
         else:
             datamanager.collection.remove({"id": id})
         return "Order Cancelled"
+
+    def statusAPI(self,threadname,order_id):
+        print(threadname)
+        time.sleep(5)
+        datamanager.collection.update({'id': order_id}, {"$set": {'status': "PREPARING"}})
+        time.sleep(2)
+        datamanager.collection.update({'id': order_id}, {"$set": {'status': "SERVED"}})
+        time.sleep(10)
+        datamanager.collection.update({'id': order_id}, {"$set": {'status': "COLLECTED"}})
+
+
