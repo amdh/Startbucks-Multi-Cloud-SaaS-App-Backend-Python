@@ -1,0 +1,50 @@
+
+
+1. install mongo on amazon ec2:
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-amazon/
+open 27017 port in securty group
+
+2. sudo vi /etc/mongod.conf
+comment bindp line ( to open in write mode use insert)
+
+3. test the connection with mongo
+https://docs.mongodb.com/manual/tutorial/troubleshoot-replica-sets/#replica-set-troubleshooting-check-connection
+mongo --host m2.example.net --port 27017
+
+
+4. create cluster
+
+sudo mkdir /var/lib/mongo/data/db
+
+sudo chmod go+w /var/lib/mongo/data/db
+
+mongod --dbpath=/var/lib/mongo/data/db --replSet "rs0" 
+for all 3 instances
+
+mongod --config /etc/mongod.conf
+
+
+mongo 
+on the first instances
+followed by :
+
+rs.initiate( { _id : "rs0", members: [ { _id : 0, host : "ec2-54-215-205-70.us-west-1.compute.amazonaws.com:27017" }] })
+  
+  main => sudo mongod --replSet "rs0"
+new putty => main => mongo
+
+rs.initiate( {
+   _id : "rs0",
+   members: [ { _id : 0, host : "172.31.5.46:27017" } ]
+})
+
+rs.conf()
+
+second => sudo mongod --replSet "rs0"
+
+main (second putty) =>  rs.add("172.31.14.31")
+
+third => sudo mongod --replSet "rs0"
+
+main (second putty) =>  rs.add("172.31.8.200")
+

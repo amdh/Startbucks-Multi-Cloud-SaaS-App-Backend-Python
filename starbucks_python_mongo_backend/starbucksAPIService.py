@@ -110,6 +110,13 @@ class StarbucksAPIService():
                 'message': "Order not found"
             }
             return (message)
+        elif order['status'] == "PAID" or order['status'] == "PREPARING" or order['status'] == "SERVED" or order[
+            'status'] == "COLLECTED":
+            message = {
+                'status': "error",
+                'message': "Order payment done hence cannot be deleted "
+            }
+            return message
         else:
             datamanager.collection.remove({"id": id})
             message = {
