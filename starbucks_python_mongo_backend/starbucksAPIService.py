@@ -112,7 +112,11 @@ class StarbucksAPIService():
             return (message)
         else:
             datamanager.collection.remove({"id": id})
-        return "Order Cancelled"
+            message = {
+                'status': "success",
+                'message': "Order Cancelled"
+            }
+        return message
 
     def statusAPI(self,threadname,order_id):
         print(threadname)
