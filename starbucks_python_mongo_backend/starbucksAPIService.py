@@ -114,7 +114,7 @@ class StarbucksAPIService():
             'status'] == "COLLECTED":
             message = {
                 'status': "error",
-                'message': "Order payment done hence cannot be deleted "
+                'message': "Order cannot be deleted after payment ahs been made"
             }
             return message
         else:

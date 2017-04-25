@@ -18,6 +18,8 @@ sudo mkdir /var/lib/mongo/data/db
 
 sudo chmod go+w /var/lib/mongo/data/db
 
+sudo chmod go+w data/db
+
 mongod --dbpath=/var/lib/mongo/data/db --replSet "rs0" 
 for all 3 instances
 
@@ -28,7 +30,7 @@ mongo
 on the first instances
 followed by :
 
-rs.initiate( { _id : "rs0", members: [ { _id : 0, host : "ec2-54-215-205-70.us-west-1.compute.amazonaws.com:27017" }] })
+rs.initiate( { _id : "rs0", members: [ { _id : 0, host : "54.153.87.36:27017" }] })
   
   main => sudo mongod --replSet "rs0"
 new putty => main => mongo
