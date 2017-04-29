@@ -1,0 +1,27 @@
+
+## Install AWS Elastic beanstalk CLI
+
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html?icmpid=docs_elasticbeanstalk_console
+
+## create a github repo locally
+
+## cd to repo on command prompt
+
+## for python project name main file as application.py
+
+## prepare requirements.txt file if you are using python application
+
+## add applciation required python modules in requirements.txt
+
+## eb init
+This will initiate the elastic beanstalk environment locally needed for AWS beanstalk
+
+## eb create
+This will create the actual application environment by using requirements.txt file.
+
+
+## eb deploy  
+This will deploy the application in the curent directory with main application.py file.
+
+## eb open 
+This will open the url in the browser

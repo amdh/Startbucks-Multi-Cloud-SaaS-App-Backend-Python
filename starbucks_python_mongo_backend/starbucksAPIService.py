@@ -5,6 +5,7 @@ import time
 from threading import Thread
 import socket
 import _thread
+import flask, json
 
 
 class OrderStatus(Enum):
@@ -56,6 +57,7 @@ class StarbucksAPIService():
                 "status": "error",
                 "message": "Order not found."
                 }
+        print(json.dumps(data))
         return data
 
     def putOrder(self, Order,id):
@@ -93,11 +95,11 @@ class StarbucksAPIService():
 
     def getOrders(self):
         print("inside getOrders")
-        cursor = datamanager.collection.find({}, {"_id": 0})
-        orders = {}
+        cursor = datamanager.collection.find(projection={'_id':False})
+        orders = []
         for document in cursor:
             print(document)
-            orders.update(document)
+            orders.append(document)
         return orders
 
     def deleteOrder(self,id):
@@ -114,7 +116,7 @@ class StarbucksAPIService():
             'status'] == "COLLECTED":
             message = {
                 'status': "error",
-                'message': "Order cannot be deleted after payment ahs been made"
+                'message': "Order cannot be deleted after payment has been made"
             }
             return message
         else:
