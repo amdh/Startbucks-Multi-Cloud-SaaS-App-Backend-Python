@@ -2,10 +2,12 @@ from flask import Flask, render_template, request, session, flash, redirect, jso
 from flask.views import MethodView
 import uuid
 from starbucksAPIService import StarbucksAPIService
+from flask_cors import CORS
 
 application = Flask(__name__)
 application.debug=True
 service = StarbucksAPIService()
+CORS(application)
 # API list
 
 '''
