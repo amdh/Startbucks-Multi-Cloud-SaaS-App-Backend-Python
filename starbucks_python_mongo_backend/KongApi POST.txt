@@ -1,0 +1,56 @@
+{
+  "data": [
+    {
+      "http_if_terminated": true,
+      "id": "a459cebe-d1cd-42d0-9a6d-2428657ee10a",
+      "retries": 5,
+      "preserve_host": false,
+      "created_at": 1493061727676,
+      "upstream_connect_timeout": 60000,
+      "upstream_url": "http://starbucks-python-mongo-backend-dev.us-west-1.elasticbeanstalk.com/v1/starbucks",
+      "upstream_send_timeout": 60000,
+      "https_only": false,
+      "upstream_read_timeout": 60000,
+      "strip_uri": true,
+      "name": "starbucks-1",
+      "hosts": [
+        "starbucks1.com"
+      ]
+    },
+    {
+      "http_if_terminated": true,
+      "id": "f97a3c09-513a-4dea-b4e0-fb19ff973a3c",
+      "retries": 5,
+      "preserve_host": false,
+      "created_at": 1493061727676,
+      "upstream_connect_timeout": 60000,
+      "upstream_url": "http://starbucks-python-mongo-backend-dev.us-west-1.elasticbeanstalk.com",
+      "upstream_send_timeout": 60000,
+      "https_only": false,
+      "upstream_read_timeout": 60000,
+      "strip_uri": true,
+      "name": "TestStore2",
+      "hosts": [
+        "TestStore1.com"
+      ]
+    },
+    {
+      "http_if_terminated": true,
+      "id": "c76be921-5456-4418-a883-ec5457b89005",
+      "retries": 5,
+      "preserve_host": false,
+      "created_at": 1493033097569,
+      "upstream_connect_timeout": 60000,
+      "upstream_url": "http://starbucks-python-mongo-backend-dev.us-west-1.elasticbeanstalk.com",
+      "upstream_send_timeout": 60000,
+      "https_only": false,
+      "upstream_read_timeout": 60000,
+      "strip_uri": true,
+      "name": "TestStore3",
+      "hosts": [
+        "starbucks-python-mongo-backend-dev.us-west-1.elasticbeanstalk.com"
+      ]
+    }
+  ],
+  "total": 3
+}

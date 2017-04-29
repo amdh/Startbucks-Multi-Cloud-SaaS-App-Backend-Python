@@ -2,6 +2,10 @@ branch-defaults:
   default:
     environment: starbucks-python-mongo-backend-dev
     group_suffix: null
+environment-defaults:
+  starbucks-python-mongo-backend-dev:
+    branch: null
+    repository: null
 global:
   application_name: starbucks_python_mongo_backend
   branch: null

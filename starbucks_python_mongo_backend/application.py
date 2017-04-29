@@ -33,39 +33,54 @@ POST    /v1/starbucks/order/{order_id}/pay
 GET     /v1/starbucks/orders
         Get list of Open Orders
 '''
-@application.route("/v1/starbucks/ping", methods=['GET'])
+@application.route("/store1/v1/starbucks/ping", methods=['GET'])
 def testPing():
     print("ping successfull")
     return json.dumps({'status' : 'ok' , 'message': 'Starbucks API service :v1'})
 
-@application.route("/v1/starbucks/order/<string:id>", methods=['GET'])
+@application.route("/store1/v1/starbucks/order/<string:id>", methods=['GET'])
 def getOrder(id):
+    resp = Response(json.dumps(service.getOrder(id)))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
-    return json.dumps(service.getOrder(id))
-
-@application.route("/v1/starbucks/order", methods=['POST'])
+@application.route("/store1/v1/starbucks/order", methods=['POST'])
 def placeOrder():
     data = request.get_json(force=True)
-    return json.dumps(service.postOrder(data))
+    resp = Response(json.dumps(service.postOrder(data)))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
-@application.route("/v1/starbucks/order/<string:id>", methods=['PUT'])
+@application.route("/store1/v1/starbucks/order/<string:id>", methods=['PUT'])
 def updateOrder(id):
     data = request.get_json(force=True)
     print(data,id)
-    return json.dumps(service.putOrder(data,id))
+     
+    resp = Response(json.dumps(service.putOrder(data,id)))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
-@application.route("/v1/starbucks/order/<string:id>", methods=['DELETE'])
+@application.route("/store1/v1/starbucks/order/<string:id>", methods=['DELETE'])
 def removeOrder(id):
-    return json.dumps(service.deleteOrder(id))
+     
+    resp = Response(json.dumps(service.deleteOrder(id)))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
-@application.route("/v1/starbucks/order/<string:id>/pay", methods=['POST'])
+@application.route("/store1/v1/starbucks/order/<string:id>/pay", methods=['POST'])
 def payOrder(id):
-    return json.dumps(service.payOrder(id))
+     
+    resp = Response(json.dumps(service.payOrder(id)))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
-@application.route("/v1/starbucks/orders", methods=['GET'])
+@application.route("/store1/v1/starbucks/orders", methods=['GET'])
 def getOrders():
     order = service.getOrders();
-    return json.dumps(order)
+     
+    resp = Response(json.dumps(order))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 
 if __name__ == "__main__":
